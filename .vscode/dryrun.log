@@ -1,0 +1,11 @@
+make.exe --dry-run --always-make --keep-going --print-directory
+make.exe: Entering directory 'c:/Users/Eduardo/Desktop/baixo_nivel/projects/projeto1'
+avr-gcc -g -mmcu=atmega328p -Wall -Os -fno-inline-small-functions -fno-split-wide-types -D F_CPU=16000000 -D USART_BAUD=57600 -c main.c -o main.o
+avr-gcc -g -mmcu=atmega328p -Wall -Os -fno-inline-small-functions -fno-split-wide-types -D F_CPU=16000000 -D USART_BAUD=57600 -c nokia5110.c
+avr-gcc -g -mmcu=atmega328p -Wall -Os -fno-inline-small-functions -fno-split-wide-types -D F_CPU=16000000 -D USART_BAUD=57600 main.o nokia5110.o -o code.elf
+avr-objcopy -R .eeprom -O ihex code.elf code.hex
+avr-objdump -d code.elf > code.lst
+avr-objdump -h code.elf > code.sec
+avr-size code.elf
+make.exe: Leaving directory 'c:/Users/Eduardo/Desktop/baixo_nivel/projects/projeto1'
+ 

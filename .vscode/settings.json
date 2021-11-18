@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "nokia5110.h": "c",
+        "io.h": "c"
+    }
+}
