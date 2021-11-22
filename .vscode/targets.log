@@ -5,8 +5,9 @@ make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --quest
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
+ 
 
-# Make data base, printed on Wed Nov 17 21:17:05 2021
+# Make data base, printed on Mon Nov 22 15:33:04 2021
 
 # Variables
 
@@ -33,7 +34,7 @@ HOMEDRIVE = C:
 # automatic
 ^D = $(patsubst %/,%,$(patsubst %\,%,$(dir $^)))
 # makefile
-CURDIR := c:/Users/Eduardo/Desktop/baixo_nivel/projects/projeto1
+CURDIR := c:/Users/Eduardo/Desktop/baixo_nivel/projects/git/t2-pbn-jogodasenha
 # default
 SHELL := sh.exe
 # environment
@@ -61,7 +62,7 @@ PROGRAMW6432 = C:\Program Files
 # environment
 PROGRAMDATA = C:\ProgramData
 # environment
-VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-95aeb982-d220-40a0-bd5b-6110b6cc6078-sock
+VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-4de7d1be-be3d-4ece-a39a-36fd3249026c-sock
 # environment
 VSCODE_CWD = C:\Users\Eduardo\AppData\Local\Programs\Microsoft VS Code
 # default
@@ -89,7 +90,7 @@ SIZE = avr-size
 # automatic
 %F = $(notdir $%)
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_36884_WHOCRTVKYEIPHWDL
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_15916_OEFKNGJRABSKWZUA
 # environment
 VSCODE_PIPE_LOGGING = true
 # environment
@@ -111,7 +112,7 @@ VSCODE_AMD_ENTRYPOINT = vs/workbench/services/extensions/node/extensionHostProce
 # makefile (from 'Makefile', line 2)
 CRYSTAL = 16000000
 # environment
-VSCODE_CODE_CACHE_PATH = C:\Users\Eduardo\AppData\Roaming\Code\CachedData\3a6960b964327f0e3882ce18fcebd07ed191b316
+VSCODE_CODE_CACHE_PATH = C:\Users\Eduardo\AppData\Roaming\Code\CachedData\ccbaa2d27e38e5afa3e5c21c1c7bef4657064247
 # environment
 APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # environment
@@ -157,7 +158,7 @@ PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 58 Stepping 9, GenuineIntel
 # environment
 OS = Windows_NT
 # environment
-VSCODE_IPC_HOOK = \\.\pipe\676805865a0d51ce50964fc4b4829636-1.62.2-main-sock
+VSCODE_IPC_HOOK = \\.\pipe\676805865a0d51ce50964fc4b4829636-1.62.3-main-sock
 # environment
 HOMEPATH = \Users\Eduardo
 # environment
@@ -181,7 +182,7 @@ OBJDUMP = avr-objdump
 # environment
 APPDATA = C:\Users\Eduardo\AppData\Roaming
 # environment
-__COMPAT_LAYER = RunAsAdmin
+__COMPAT_LAYER = RunAsAdmin Installer
 # environment
 TEMP = C:\Users\Eduardo\AppData\Local\Temp
 # environment
@@ -211,13 +212,13 @@ LANG = C
 # environment
 PROCESSOR_LEVEL = 6
 # environment
-VSCODE_PID = 36884
+VSCODE_PID = 15916
 # environment
 USERDOMAIN_ROAMINGPROFILE = DESKTOP-1IFSI6L
 # makefile (from 'Makefile', line 4)
 SERIAL_BAUDRATE = 57600
 # variable set hash-table stats:
-# Load=103/1024=10%, Rehash=0, Collisions=21/147=14%
+# Load=103/1024=10%, Rehash=0, Collisions=25/167=15%
 
 # Pattern-specific Variable Values
 
@@ -225,9 +226,9 @@ SERIAL_BAUDRATE = 57600
 
 # Directories
 
-# . (key c:/Users/Eduardo/Desktop/baixo_nivel/projects/projeto1, mtime 1637190146): 15 files, no impossibilities.
+# . (key c:/Users/Eduardo/Desktop/baixo_nivel/projects/git/t2-pbn-jogodasenha, mtime 1637605241): 27 files, no impossibilities.
 
-# 15 files, no impossibilities in 1 directories.
+# 27 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -259,11 +260,15 @@ all:
 # automatic
 # ? := 
 # variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=7/30=23%
+# Load=8/32=25%, Rehash=0, Collisions=11/50=22%
 #  recipe to execute (from 'Makefile', line 14):
+	$(CC) $(CFLAGS) -c main.c
+	$(CC) $(CFLAGS) -c usart.c
+	$(CC) $(CFLAGS) -c adc.c
+	$(CC) $(CFLAGS) -c print.c
 	$(CC) $(CFLAGS) -c main.c -o main.o
 	$(CC) $(CFLAGS) -c nokia5110.c
-	$(CC) $(CFLAGS) main.o nokia5110.o -o code.elf
+	$(CC) $(CFLAGS) main.o nokia5110.o usart.o adc.o print.o -o code.elf
 	$(OBJCOPY) -R .eeprom -O ihex code.elf code.hex
 	$(OBJDUMP) -d code.elf > code.lst
 	$(OBJDUMP) -h code.elf > code.sec
@@ -278,7 +283,7 @@ all:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2021-11-17 16:28:41
+#  Last modified 2021-11-21 21:21:48
 #  File has been updated.
 #  Successfully updated.
 
@@ -292,7 +297,7 @@ clean:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 23):
+#  recipe to execute (from 'Makefile', line 27):
 	rm -f *.o *.map *.elf *.sec *.lst *.hex *~
 
 # files hash-table stats:
@@ -303,12 +308,12 @@ clean:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 19 / storage = 169 B / avg = 8 B
-# current buf: size = 8162 B / used = 169 B / count = 19 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 31 / storage = 261 B / avg = 8 B
+# current buf: size = 8162 B / used = 261 B / count = 31 / avg = 8 B
 
-# strcache performance: lookups = 27 / hit rate = 29%
+# strcache performance: lookups = 39 / hit rate = 20%
 # hash-table stats:
-# Load=19/8192=0%, Rehash=0, Collisions=1/27=4%
-# Finished Make data base on Wed Nov 17 21:17:05 2021
+# Load=31/8192=0%, Rehash=0, Collisions=1/39=3%
+# Finished Make data base on Mon Nov 22 15:33:04 2021
 
  
