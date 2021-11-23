@@ -5,9 +5,8 @@ make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --quest
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
- 
 
-# Make data base, printed on Mon Nov 22 15:33:04 2021
+# Make data base, printed on Tue Nov 23 15:17:11 2021
 
 # Variables
 
@@ -62,7 +61,7 @@ PROGRAMW6432 = C:\Program Files
 # environment
 PROGRAMDATA = C:\ProgramData
 # environment
-VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-4de7d1be-be3d-4ece-a39a-36fd3249026c-sock
+VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-dd7581f5-665b-4edf-a5e5-42f86fdb8c6c-sock
 # environment
 VSCODE_CWD = C:\Users\Eduardo\AppData\Local\Programs\Microsoft VS Code
 # default
@@ -90,7 +89,7 @@ SIZE = avr-size
 # automatic
 %F = $(notdir $%)
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_15916_OEFKNGJRABSKWZUA
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_22172_IVBHPYQDRUGQTCWY
 # environment
 VSCODE_PIPE_LOGGING = true
 # environment
@@ -212,7 +211,7 @@ LANG = C
 # environment
 PROCESSOR_LEVEL = 6
 # environment
-VSCODE_PID = 15916
+VSCODE_PID = 22172
 # environment
 USERDOMAIN_ROAMINGPROFILE = DESKTOP-1IFSI6L
 # makefile (from 'Makefile', line 4)
@@ -226,7 +225,7 @@ SERIAL_BAUDRATE = 57600
 
 # Directories
 
-# . (key c:/Users/Eduardo/Desktop/baixo_nivel/projects/git/t2-pbn-jogodasenha, mtime 1637605241): 27 files, no impossibilities.
+# . (key c:/Users/Eduardo/Desktop/baixo_nivel/projects/git/t2-pbn-jogodasenha, mtime 1637635442): 27 files, no impossibilities.
 
 # 27 files, no impossibilities in 1 directories.
 
@@ -297,7 +296,8 @@ clean:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 27):
+#  recipe to execute (from 'Makefile', l 
+ine 27):
 	rm -f *.o *.map *.elf *.sec *.lst *.hex *~
 
 # files hash-table stats:
@@ -314,6 +314,6 @@ clean:
 # strcache performance: lookups = 39 / hit rate = 20%
 # hash-table stats:
 # Load=31/8192=0%, Rehash=0, Collisions=1/39=3%
-# Finished Make data base on Mon Nov 22 15:33:04 2021
+# Finished Make data base on Tue Nov 23 15:17:11 2021
 
  

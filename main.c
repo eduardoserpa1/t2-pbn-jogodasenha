@@ -14,7 +14,7 @@
 
 
 char senha[5];
-char palpite[5] = {'0','1','2','3','\0'};
+char palpite[5] = {'0','0','0','0','\0'};
 
 uint8_t seletor[] =    {0b00010000, 0b00100100, 0b11100000, 0b00100100, 0b00010000};
 
@@ -40,6 +40,37 @@ void def_senha(){
     }
     senha[4] = 0;
 
+}
+
+void draw_line(uint8_t index){
+
+    switch (index)
+    {
+    case 0:
+        nokia_lcd_drawline(0,17,10,17);
+        nokia_lcd_drawline(0,0,10,0);
+    break;
+    
+    case 1:
+        nokia_lcd_drawline(11,17,21,17);
+        nokia_lcd_drawline(11,0,21,0);
+    break;
+
+    case 2:
+        nokia_lcd_drawline(22,17,32,17);
+        nokia_lcd_drawline(22,0,32,0);
+    break;
+
+    case 3:
+        nokia_lcd_drawline(33,17,43,17);
+        nokia_lcd_drawline(33,0,43,0);
+    break;
+    
+    default:
+        
+    break;
+    }
+  
 }
 
 int main(void)
@@ -106,13 +137,18 @@ int main(void)
         if(pressed){
             menu = 0;
             game = 1;
-            print("i");
+            print("x");
         }
         if(game){
             nokia_lcd_clear();
+            nokia_lcd_set_cursor(0,2);
             nokia_lcd_write_string(palpite,2);
-            //nokia_lcd_custom(1,seletor);
+            //draw_line(0);
+            //draw_line(1);
+            draw_line(2);
+            //draw_line(3);
             nokia_lcd_render();
+            
         }
 
 
@@ -120,34 +156,4 @@ int main(void)
     return 0;
 }
 
-void draw_line(uint8_t index){
 
-    switch (index)
-    {
-    case 0:
-        /* code
-        codigo para cada marcador
-        
-         */
-        
-    break;
-    
-    case 1:
-        /* code */
-    break;
-
-    case 2:
-        /* code */
-    break;
-
-    case 3:
-        /* code */
-    break;
-    
-    default:
-        
-    break;
-    }
-
-    
-}
