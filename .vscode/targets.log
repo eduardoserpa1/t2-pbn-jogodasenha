@@ -6,7 +6,7 @@ make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --quest
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Tue Nov 23 15:17:11 2021
+# Make data base, printed on Tue Nov 23 21:45:06 2021
 
 # Variables
 
@@ -45,7 +45,8 @@ VSCODE_NLS_CONFIG = {"locale":"pt-br","availableLanguages":{},"_languagePackSupp
 # environment
 VBOX_MSI_INSTALL_PATH = C:\Program Files\Oracle\VirtualBox\
 # makefile (from 'Makefile', line 11)
-CFLAGS = -g -mmcu=$(MCU) -Wall -Os -fno-inline-small-functions -fno-split-wide-types -D F_CPU=$(CRYSTAL) -D USART_BAUD=$(SERIAL_BAUDRATE)
+CFLAGS = -g -mmcu=$(MCU) -Wall -Os -fno-inline-small-function 
+s -fno-split-wide-types -D F_CPU=$(CRYSTAL) -D USART_BAUD=$(SERIAL_BAUDRATE)
 # environment
 ONEDRIVE = C:\Users\Eduardo\OneDrive
 # environment
@@ -61,7 +62,7 @@ PROGRAMW6432 = C:\Program Files
 # environment
 PROGRAMDATA = C:\ProgramData
 # environment
-VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-dd7581f5-665b-4edf-a5e5-42f86fdb8c6c-sock
+VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-0fcecbe8-d354-4c02-b623-01fbbb1c9d9a-sock
 # environment
 VSCODE_CWD = C:\Users\Eduardo\AppData\Local\Programs\Microsoft VS Code
 # default
@@ -89,7 +90,7 @@ SIZE = avr-size
 # automatic
 %F = $(notdir $%)
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_22172_IVBHPYQDRUGQTCWY
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_11304_NBKOSBCPLDLHGPOS
 # environment
 VSCODE_PIPE_LOGGING = true
 # environment
@@ -211,7 +212,7 @@ LANG = C
 # environment
 PROCESSOR_LEVEL = 6
 # environment
-VSCODE_PID = 22172
+VSCODE_PID = 11304
 # environment
 USERDOMAIN_ROAMINGPROFILE = DESKTOP-1IFSI6L
 # makefile (from 'Makefile', line 4)
@@ -225,9 +226,9 @@ SERIAL_BAUDRATE = 57600
 
 # Directories
 
-# . (key c:/Users/Eduardo/Desktop/baixo_nivel/projects/git/t2-pbn-jogodasenha, mtime 1637635442): 27 files, no impossibilities.
+# . (key c:/Users/Eduardo/Desktop/baixo_nivel/projects/git/t2-pbn-jogodasenha, mtime 1637713854): 28 files, no impossibilities.
 
-# 27 files, no impossibilities in 1 directories.
+# 28 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -296,8 +297,7 @@ clean:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', l 
-ine 27):
+#  recipe to execute (from 'Makefile', line 27):
 	rm -f *.o *.map *.elf *.sec *.lst *.hex *~
 
 # files hash-table stats:
@@ -308,12 +308,12 @@ ine 27):
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 31 / storage = 261 B / avg = 8 B
-# current buf: size = 8162 B / used = 261 B / count = 31 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 32 / storage = 282 B / avg = 8 B
+# current buf: size = 8162 B / used = 282 B / count = 32 / avg = 8 B
 
-# strcache performance: lookups = 39 / hit rate = 20%
+# strcache performance: lookups = 40 / hit rate = 20%
 # hash-table stats:
-# Load=31/8192=0%, Rehash=0, Collisions=1/39=3%
-# Finished Make data base on Tue Nov 23 15:17:11 2021
+# Load=32/8192=0%, Rehash=0, Collisions=1/40=3%
+# Finished Make data base on Tue Nov 23 21:45:06 2021
 
  

@@ -12,12 +12,194 @@
 #include "usart.h"
 
 
+int joystick_control(float,  float,  uint8_t,  int *);
+int confere_senha();
+void def_senha();
+void draw_line(uint8_t index);
 
-char senha[5];
+char senha[5] = {'0','0','0','0','\0'};
 char palpite[5] = {'0','0','0','0','\0'};
 
-uint8_t seletor[] =    {0b00010000, 0b00100100, 0b11100000, 0b00100100, 0b00010000};
+int main(void)
+{
+    srand(time(NULL));
 
+    int run = 1;
+
+    def_senha();
+
+    print("\nsenha: ");
+    print(senha);
+    print("\n");
+    
+    nokia_lcd_init();
+
+    nokia_lcd_clear();
+
+    /*
+    for(int i = 0; i < 3; i++){
+        nokia_lcd_clear();
+        nokia_lcd_set_cursor(0,12);
+        nokia_lcd_write_string("(honest :p)",1);
+        nokia_lcd_render();
+        nokia_lcd_set_cursor(0,0);
+        nokia_lcd_write_string("CARREGANDO.",1);
+        nokia_lcd_render();
+        _delay_ms(500);
+        nokia_lcd_write_string(".",1);
+        nokia_lcd_render();
+        _delay_ms(500);
+        nokia_lcd_write_string(".",1);
+        nokia_lcd_render();
+        _delay_ms(500);
+    }
+    */
+
+    USART_Init();
+    adc_init();
+
+    DDRB &= ~(1 << PB0); // seta PB0 como entrada
+
+    int menu = 1;
+    int game = 0;
+    int index_seletor = 0;
+
+    while(run){
+        adc_set_channel(0);
+        float x = adc_read() * 0.0009765625;
+        adc_set_channel(1);
+        float y = adc_read() * 0.0009765625;   
+        
+        uint8_t pressed = 0;
+
+        //print("\nx: ");
+        //printfloat(x);
+        //print("  y: ");
+        //printfloat(y);
+
+        if(PINB & (1<<PB0))
+            pressed = 1;
+        else
+            pressed = 0;
+
+        if(pressed){
+            menu = 0;
+            game = 1;
+        }
+
+        if(menu){
+            nokia_lcd_clear();
+            nokia_lcd_write_string("BEM VINDO AO   JOGO DA SENHA",1);
+            nokia_lcd_set_cursor(0,24);
+            nokia_lcd_write_string(" press button",1);
+            nokia_lcd_render();
+        }
+        
+        if(game){
+            nokia_lcd_clear();
+
+            nokia_lcd_set_cursor(0,2);
+
+            nokia_lcd_write_string(palpite,2);
+
+            int delay = joystick_control(x,y,pressed,&index_seletor);
+
+            if(delay)
+                _delay_ms(100);
+
+            draw_line(index_seletor);
+
+            nokia_lcd_render();
+
+            if(pressed){
+                if(!senha_diferente()){
+                    print("igual");
+                }else{
+                    print("diferente");
+                } 
+                _delay_ms(1000);
+            }
+            
+            
+        }
+
+
+    } 
+    return 0;
+}
+
+int senha_diferente(){
+    int response = 0;
+
+    for(int i = 0; i < 5; i++){
+        if(palpite[i] != senha[i])
+            response++;
+    }
+
+    return response;
+}
+
+int joystick_control(float x, float y, uint8_t pressed, int *index){
+
+    int response = 0;
+    int direction = 0;
+    int caractere;
+
+    if(y > 0.9f)
+        direction = 1;
+    else
+    if(y < 0.1f)
+        direction = -1;
+    else
+    if(x < 0.1f)
+        direction = 2;
+    else
+    if(x > 0.9f)
+        direction = 3;
+
+    switch (direction)
+    {
+    case 1:
+        *index = *index + 1;
+        response = 1;
+    break;
+    case -1:
+        *index = *index - 1;
+        response = 1;
+    break;
+    case 2:
+        caractere = palpite[*index];
+        print("\nup\n");
+        printint(caractere);
+        caractere++;
+        if(caractere > '9')
+            caractere = '0';
+        palpite[*index] = caractere;
+        response = 1;
+    break;
+    case 3:
+        caractere = palpite[*index];
+        print("\ndown\n");
+        printint(caractere);
+        caractere--;
+        if(caractere < '0')
+            caractere = '9';
+        palpite[*index] = caractere;
+        response = 1;
+    break;
+        
+    default: 
+    break;
+    }
+
+    if(*index >= 4)
+        *index = 0;
+
+    if(*index < 0)
+        *index = 3;
+
+    return response;
+}
 
 void def_senha(){
 
@@ -70,90 +252,8 @@ void draw_line(uint8_t index){
         
     break;
     }
-  
+
+
+    //_delay_ms(1000);
 }
-
-int main(void)
-{
-    srand(time(NULL));
-
-    int run = 1;
-
-    def_senha();
-
-    
-    nokia_lcd_init();
-
-    nokia_lcd_clear();
-
-    /*
-    for(int i = 0; i < 3; i++){
-        nokia_lcd_clear();
-        nokia_lcd_set_cursor(0,12);
-        nokia_lcd_write_string("(honest :p)",1);
-        nokia_lcd_render();
-        nokia_lcd_set_cursor(0,0);
-        nokia_lcd_write_string("CARREGANDO.",1);
-        nokia_lcd_render();
-        _delay_ms(500);
-        nokia_lcd_write_string(".",1);
-        nokia_lcd_render();
-        _delay_ms(500);
-        nokia_lcd_write_string(".",1);
-        nokia_lcd_render();
-        _delay_ms(500);
-    }
-    */
-    
-
-    USART_Init();
-    adc_init();
-
-    DDRB &= ~(1 << PB0); // seta PB0 como entrada
-
-    int menu = 1;
-    int game = 0;
-
-    while(run){
-        adc_set_channel(0);
-        float x = adc_read() * 0.0009765625;
-        adc_set_channel(1);
-        float y = adc_read() * 0.0009765625;   
-        
-        int pressed = 0;
-
-        if(PINB & (1<<PB0))
-            pressed = 1;
-        else
-            pressed = 0;
-
-        if(menu){
-            nokia_lcd_clear();
-            nokia_lcd_write_string("BEM VINDO AO   JOGO DA SENHA",1);
-            nokia_lcd_set_cursor(0,24);
-            nokia_lcd_write_string(" press button",1);
-            nokia_lcd_render();
-        }
-        if(pressed){
-            menu = 0;
-            game = 1;
-            print("x");
-        }
-        if(game){
-            nokia_lcd_clear();
-            nokia_lcd_set_cursor(0,2);
-            nokia_lcd_write_string(palpite,2);
-            //draw_line(0);
-            //draw_line(1);
-            draw_line(2);
-            //draw_line(3);
-            nokia_lcd_render();
-            
-        }
-
-
-    } 
-    return 0;
-}
-
 
