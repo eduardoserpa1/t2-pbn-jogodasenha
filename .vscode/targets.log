@@ -6,7 +6,7 @@ make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --quest
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Tue Nov 23 21:45:06 2021
+# Make data base, printed on Thu Nov 25 21:23:08 2021
 
 # Variables
 
@@ -31,7 +31,8 @@ HOMEDRIVE = C:
 # automatic
 @F = $(notdir $@)
 # automatic
-^D = $(patsubst %/,%,$(patsubst %\,%,$(dir $^)))
+^D = $(patsubst %/,%,$( 
+patsubst %\,%,$(dir $^)))
 # makefile
 CURDIR := c:/Users/Eduardo/Desktop/baixo_nivel/projects/git/t2-pbn-jogodasenha
 # default
@@ -45,8 +46,7 @@ VSCODE_NLS_CONFIG = {"locale":"pt-br","availableLanguages":{},"_languagePackSupp
 # environment
 VBOX_MSI_INSTALL_PATH = C:\Program Files\Oracle\VirtualBox\
 # makefile (from 'Makefile', line 11)
-CFLAGS = -g -mmcu=$(MCU) -Wall -Os -fno-inline-small-function 
-s -fno-split-wide-types -D F_CPU=$(CRYSTAL) -D USART_BAUD=$(SERIAL_BAUDRATE)
+CFLAGS = -g -mmcu=$(MCU) -Wall -Os -fno-inline-small-functions -fno-split-wide-types -D F_CPU=$(CRYSTAL) -D USART_BAUD=$(SERIAL_BAUDRATE)
 # environment
 ONEDRIVE = C:\Users\Eduardo\OneDrive
 # environment
@@ -62,7 +62,7 @@ PROGRAMW6432 = C:\Program Files
 # environment
 PROGRAMDATA = C:\ProgramData
 # environment
-VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-0fcecbe8-d354-4c02-b623-01fbbb1c9d9a-sock
+VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-52a67dae-9910-40b2-9792-3c4bfe310fb5-sock
 # environment
 VSCODE_CWD = C:\Users\Eduardo\AppData\Local\Programs\Microsoft VS Code
 # default
@@ -90,7 +90,7 @@ SIZE = avr-size
 # automatic
 %F = $(notdir $%)
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_11304_NBKOSBCPLDLHGPOS
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_1832_VEBZRXVCUTVNHMEP
 # environment
 VSCODE_PIPE_LOGGING = true
 # environment
@@ -212,7 +212,7 @@ LANG = C
 # environment
 PROCESSOR_LEVEL = 6
 # environment
-VSCODE_PID = 11304
+VSCODE_PID = 1832
 # environment
 USERDOMAIN_ROAMINGPROFILE = DESKTOP-1IFSI6L
 # makefile (from 'Makefile', line 4)
@@ -226,7 +226,7 @@ SERIAL_BAUDRATE = 57600
 
 # Directories
 
-# . (key c:/Users/Eduardo/Desktop/baixo_nivel/projects/git/t2-pbn-jogodasenha, mtime 1637713854): 28 files, no impossibilities.
+# . (key c:/Users/Eduardo/Desktop/baixo_nivel/projects/git/t2-pbn-jogodasenha, mtime 1637885980): 28 files, no impossibilities.
 
 # 28 files, no impossibilities in 1 directories.
 
@@ -314,6 +314,6 @@ clean:
 # strcache performance: lookups = 40 / hit rate = 20%
 # hash-table stats:
 # Load=32/8192=0%, Rehash=0, Collisions=1/40=3%
-# Finished Make data base on Tue Nov 23 21:45:06 2021
+# Finished Make data base on Thu Nov 25 21:23:08 2021
 
  

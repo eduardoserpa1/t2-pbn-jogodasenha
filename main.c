@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <stdint.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
@@ -19,6 +20,16 @@ void draw_line(uint8_t index);
 
 char senha[5] = {'0','0','0','0','\0'};
 char palpite[5] = {'0','0','0','0','\0'};
+
+
+  unsigned short lfsr = 0xACE1u;
+  unsigned bit;
+
+  unsigned Rand()
+  {
+    bit  = ((lfsr >> 0) ^ (lfsr >> 2) ^ (lfsr >> 3) ^ (lfsr >> 5) ) & 1;
+    return lfsr =  (lfsr >> 1) | (bit << 15);
+  }
 
 int main(void)
 {
@@ -62,9 +73,20 @@ int main(void)
 
     int menu = 1;
     int game = 0;
+    int perdeu = 0;
+    int tentativas_restantes = 10;
     int index_seletor = 0;
 
+    int frame = 0;
+
+    int sec = 30;
+
     while(run){
+        frame++;
+        if(frame%30==0){
+            //sec++;
+        }
+
         adc_set_channel(0);
         float x = adc_read() * 0.0009765625;
         adc_set_channel(1);
@@ -82,9 +104,10 @@ int main(void)
         else
             pressed = 0;
 
-        if(pressed){
+        if(pressed && !perdeu){
             menu = 0;
             game = 1;
+
         }
 
         if(menu){
@@ -96,6 +119,16 @@ int main(void)
         }
         
         if(game){
+            if(frame%40==0)
+                sec--;
+            
+            if(sec == 0 || tentativas_restantes == 0){
+                print("perdeu");
+                game = 0;
+                perdeu = 1;
+            }
+                
+
             nokia_lcd_clear();
 
             nokia_lcd_set_cursor(0,2);
@@ -109,24 +142,61 @@ int main(void)
 
             draw_line(index_seletor);
 
-            nokia_lcd_render();
+            char time[8] = "time:xx\0"; 
 
-            if(pressed){
-                if(!senha_diferente()){
-                    print("igual");
-                }else{
-                    print("diferente");
-                } 
-                _delay_ms(1000);
+            if(sec > 9){
+                for(int i = 0; i < 2;  i++){
+                    int r_dezena = sec/10;
+                    int r_unidade = sec%10;
+                    char dezena = r_dezena + 48;
+                    char unidade = r_unidade + 48;
+                    time[5] = dezena;
+                    time[6] = unidade;
+                }
+            }else{
+                time[5] = '0';
+                time[6] = sec + 48;
+            }
+         
+
+            char tentativas[8] = "life:xx\0";
+
+            if(tentativas_restantes==10){
+                tentativas[5] = '1';
+                tentativas[6] = '0';
+            }else{
+                tentativas[5] = '0';
+                tentativas[6] = tentativas_restantes + 48;
+            }
+            nokia_lcd_set_cursor(0,32);
+            nokia_lcd_write_string(tentativas,1);
+            nokia_lcd_set_cursor(0,40);
+            nokia_lcd_write_string(time,1);
+
+            nokia_lcd_render();
+            if(sec != 30){
+                if(pressed){
+                sec = 30;
+                tentativas_restantes--;
+                    if(!senha_diferente()){
+                        print("igual");
+                    }else{
+                        print("diferente");
+                    } 
+                _delay_ms(100);
+                }
             }
             
-            
+        }
+        if(perdeu){
+
         }
 
 
     } 
     return 0;
 }
+
 
 int senha_diferente(){
     int response = 0;
@@ -221,6 +291,10 @@ void def_senha(){
         
     }
     senha[4] = 0;
+    
+
+    print("\ns: ");
+    print(senha);
 
 }
 
