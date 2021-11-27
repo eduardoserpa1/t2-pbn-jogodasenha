@@ -17,27 +17,31 @@ int joystick_control(float,  float,  uint8_t,  int *);
 int confere_senha();
 void def_senha();
 void draw_line(uint8_t index);
+void led_on(uint8_t pcorreta, uint8_t pincorreta);
+void led_off();
 
-char senha[5] = {'0','0','0','0','\0'};
+
+int verifica_valor_correto();
+
+char senha[5] = {'1','9','8','5','\0'};
 char palpite[5] = {'0','0','0','0','\0'};
 
 
-  unsigned short lfsr = 0xACE1u;
-  unsigned bit;
-
-  unsigned Rand()
-  {
-    bit  = ((lfsr >> 0) ^ (lfsr >> 2) ^ (lfsr >> 3) ^ (lfsr >> 5) ) & 1;
-    return lfsr =  (lfsr >> 1) | (bit << 15);
-  }
+  
 
 int main(void)
 {
+    DDRD |= (1 << PD0) | (1 << PD1) | (1 << PD2) | (1 << PD3) | 
+            (1 << PD4) | (1 << PD5) | (1 << PD6) | (1 << PD7) ;
+
+    uint8_t val = 1;
+    
+
     srand(time(NULL));
 
     int run = 1;
 
-    def_senha();
+    //def_senha();
 
     print("\nsenha: ");
     print(senha);
@@ -74,7 +78,7 @@ int main(void)
     int menu = 1;
     int game = 0;
     int perdeu = 0;
-    int tentativas_restantes = 10;
+    int tentativas_restantes = 2;
     int index_seletor = 0;
 
     int frame = 0;
@@ -83,9 +87,6 @@ int main(void)
 
     while(run){
         frame++;
-        if(frame%30==0){
-            //sec++;
-        }
 
         adc_set_channel(0);
         float x = adc_read() * 0.0009765625;
@@ -93,11 +94,6 @@ int main(void)
         float y = adc_read() * 0.0009765625;   
         
         uint8_t pressed = 0;
-
-        //print("\nx: ");
-        //printfloat(x);
-        //print("  y: ");
-        //printfloat(y);
 
         if(PINB & (1<<PB0))
             pressed = 1;
@@ -135,10 +131,13 @@ int main(void)
 
             nokia_lcd_write_string(palpite,2);
 
+            //nokia_lcd_set_cursor(0,2);
+            //nokia_lcd_write_string(palpite,1);
+
             int delay = joystick_control(x,y,pressed,&index_seletor);
 
             if(delay)
-                _delay_ms(100);
+                _delay_ms(300);
 
             draw_line(index_seletor);
 
@@ -178,18 +177,61 @@ int main(void)
                 if(pressed){
                 sec = 30;
                 tentativas_restantes--;
-                    if(!senha_diferente()){
+                int r = senha_diferente(); 
+                    if(!r){
                         print("igual");
+                        
                     }else{
                         print("diferente");
                     } 
+                    int pos_correta = 4 - r;
+                    print("\ndigitos na posicao correta: ");
+                    printint(pos_correta);
+                    print("\ndigitos na posicao incorreta: ");
+                    //printint(pos_correta);
                 _delay_ms(100);
                 }
             }
             
         }
         if(perdeu){
+            led_on(0,0);
+            _delay_ms(1000);
+            led_on(1,0);
+            _delay_ms(1000);
+            led_on(2,0);
+            _delay_ms(1000);
+            led_on(3,0);
+            _delay_ms(1000);
+            led_on(4,0);
+            _delay_ms(1000);
 
+            led_on(0,1);
+            _delay_ms(1000);
+            led_on(0,2);
+            _delay_ms(1000);
+            led_on(0,3);
+            _delay_ms(1000);
+            led_on(0,4);
+            _delay_ms(1000);
+
+            led_on(1,1);
+            _delay_ms(1000);
+            led_on(2,2);
+            _delay_ms(1000);
+            led_on(3,3);
+            _delay_ms(1000);
+            led_on(4,4);
+            _delay_ms(1000);
+
+            led_on(1,2);
+            _delay_ms(1000);
+            led_on(0,3);
+            _delay_ms(1000);
+            led_on(3,1);
+            _delay_ms(1000);
+            led_on(3,3);
+            _delay_ms(1000);
         }
 
 
@@ -201,12 +243,16 @@ int main(void)
 int senha_diferente(){
     int response = 0;
 
-    for(int i = 0; i < 5; i++){
+    for(int i = 0; i < 4; i++){
         if(palpite[i] != senha[i])
             response++;
     }
 
     return response;
+}
+
+int verifica_valor_correto(){
+    
 }
 
 int joystick_control(float x, float y, uint8_t pressed, int *index){
@@ -239,8 +285,8 @@ int joystick_control(float x, float y, uint8_t pressed, int *index){
     break;
     case 2:
         caractere = palpite[*index];
-        print("\nup\n");
-        printint(caractere);
+        //print("\nup\n");
+        //printint(caractere);
         caractere++;
         if(caractere > '9')
             caractere = '0';
@@ -249,8 +295,8 @@ int joystick_control(float x, float y, uint8_t pressed, int *index){
     break;
     case 3:
         caractere = palpite[*index];
-        print("\ndown\n");
-        printint(caractere);
+        //print("\ndown\n");
+        //printint(caractere);
         caractere--;
         if(caractere < '0')
             caractere = '9';
@@ -329,5 +375,61 @@ void draw_line(uint8_t index){
 
 
     //_delay_ms(1000);
+}
+
+void led_on(uint8_t pcorreta, uint8_t pincorreta){
+    uint8_t leds_pcorreta = 0;
+    uint8_t leds_pincorreta = 0;
+
+    switch (pcorreta)
+    {
+    case 1:
+        leds_pcorreta = 0b001;
+    break;
+    case 2:
+        leds_pcorreta = 0b011;
+    break;
+    case 3:
+        leds_pcorreta = 0b0111;
+    break;
+    case 4:
+        leds_pcorreta = 0b1111;
+    break;
+    
+    default:
+        break;
+    }
+
+    switch (pincorreta)
+    {
+    case 1:
+        leds_pincorreta = 0b001;
+    break;
+    case 2:
+        leds_pincorreta = 0b011;
+    break;
+    case 3:
+        leds_pincorreta = 0b0111;
+    break;
+    case 4:
+        leds_pincorreta = 0b1111;
+    break;
+    
+    default:
+        break;
+    }
+
+    uint8_t leds_final = 0;
+
+    leds_final = leds_pincorreta;
+    leds_final = leds_final << 4;
+    leds_final = leds_final + leds_pcorreta;
+
+    PORTD = leds_final;
+    
+}
+
+void led_off(){
+        PORTD = 0x0;
 }
 
