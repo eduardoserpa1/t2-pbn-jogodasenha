@@ -25,6 +25,7 @@ int verifica_valor_correto();
 
 char senha[5] = {'1','9','8','5','\0'};
 char palpite[5] = {'0','0','0','0','\0'};
+char historico[5] = {'0','0','0','0','\0'};
 
 
   
@@ -78,7 +79,8 @@ int main(void)
     int menu = 1;
     int game = 0;
     int perdeu = 0;
-    int tentativas_restantes = 2;
+    int ganhou = 0;
+    int tentativas_restantes = 10;
     int index_seletor = 0;
 
     int frame = 0;
@@ -127,12 +129,17 @@ int main(void)
 
             nokia_lcd_clear();
 
-            nokia_lcd_set_cursor(0,2);
+            nokia_lcd_set_cursor(0,0);
+            nokia_lcd_write_string("current",1);
 
-            nokia_lcd_write_string(palpite,2);
+            nokia_lcd_set_cursor(8,12);
+            nokia_lcd_write_string(palpite,1);
 
-            //nokia_lcd_set_cursor(0,2);
-            //nokia_lcd_write_string(palpite,1);
+            nokia_lcd_set_cursor(52,0);
+            nokia_lcd_write_string("last",1);
+
+            nokia_lcd_set_cursor(52,12);
+            nokia_lcd_write_string(historico,1);
 
             int delay = joystick_control(x,y,pressed,&index_seletor);
 
@@ -178,64 +185,67 @@ int main(void)
                 sec = 30;
                 tentativas_restantes--;
                 int r = senha_diferente(); 
-                    if(!r){
-                        print("igual");
-                        
-                    }else{
-                        print("diferente");
-                    } 
-                    int pos_correta = 4 - r;
-                    print("\ndigitos na posicao correta: ");
-                    printint(pos_correta);
-                    print("\ndigitos na posicao incorreta: ");
-                    //printint(pos_correta);
+
+                if(!r){
+                    print("igual");
+                    
+                }else{
+                    print("diferente");
+                } 
+
+                int val_correto = 0;
+
+                for(int i = 0; i < 4; i++){
+                    for(int j = 0; j < 4; j++){
+                        if(palpite[i] == senha[j])
+                            val_correto++;
+                    }
+                }
+
+                int pos_correta = 4 - r;
+
+                val_correto = val_correto - pos_correta;
+
+                print("\ndigitos na posicao correta: ");
+                printint(pos_correta);
+                print("\ndigitos na posicao incorreta: ");
+                printint(val_correto);
+                led_on(pos_correta,val_correto);
+
+                for(int i = 0; i < 4; i++)
+                    historico[i] = palpite[i];
+
+                if(pos_correta == 4){
+                    game = 0;
+                    ganhou = 1;
+                }
+
                 _delay_ms(100);
                 }
             }
             
         }
         if(perdeu){
-            led_on(0,0);
-            _delay_ms(1000);
-            led_on(1,0);
-            _delay_ms(1000);
-            led_on(2,0);
-            _delay_ms(1000);
-            led_on(3,0);
-            _delay_ms(1000);
-            led_on(4,0);
-            _delay_ms(1000);
+            
+        }
+        if(ganhou){
+            led_off();
+            _delay_ms(500);
+            for(int i = 0; i < 3; i++){
+                led_on(4,4);
+                _delay_ms(500);
+                led_off();
+                _delay_ms(500);
+            }
+            
 
-            led_on(0,1);
-            _delay_ms(1000);
-            led_on(0,2);
-            _delay_ms(1000);
-            led_on(0,3);
-            _delay_ms(1000);
-            led_on(0,4);
-            _delay_ms(1000);
-
-            led_on(1,1);
-            _delay_ms(1000);
-            led_on(2,2);
-            _delay_ms(1000);
-            led_on(3,3);
-            _delay_ms(1000);
-            led_on(4,4);
-            _delay_ms(1000);
-
-            led_on(1,2);
-            _delay_ms(1000);
-            led_on(0,3);
-            _delay_ms(1000);
-            led_on(3,1);
-            _delay_ms(1000);
-            led_on(3,3);
-            _delay_ms(1000);
         }
 
 
     } 
+
+
+
     return 0;
 }
 
@@ -349,23 +359,23 @@ void draw_line(uint8_t index){
     switch (index)
     {
     case 0:
-        nokia_lcd_drawline(0,17,10,17);
-        nokia_lcd_drawline(0,0,10,0);
+        nokia_lcd_drawline(8,20,13,20);
+        nokia_lcd_drawline(8,10,13,10);
     break;
     
     case 1:
-        nokia_lcd_drawline(11,17,21,17);
-        nokia_lcd_drawline(11,0,21,0);
+        nokia_lcd_drawline(14,20,19,20);
+        nokia_lcd_drawline(14,10,19,10);
     break;
 
     case 2:
-        nokia_lcd_drawline(22,17,32,17);
-        nokia_lcd_drawline(22,0,32,0);
+        nokia_lcd_drawline(20,20,25,20);
+        nokia_lcd_drawline(20,10,25,10);
     break;
 
     case 3:
-        nokia_lcd_drawline(33,17,43,17);
-        nokia_lcd_drawline(33,0,43,0);
+        nokia_lcd_drawline(26,20,31,20);
+        nokia_lcd_drawline(26,10,31,10);
     break;
     
     default:
